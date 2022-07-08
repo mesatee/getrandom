@@ -96,6 +96,9 @@ impl Error {
     }
 }
 
+#[cfg(target_vendor = "teaclave")]
+extern crate sgx_libc as libc;
+
 cfg_if! {
     if #[cfg(unix)] {
         fn os_err(errno: i32, buf: &mut [u8]) -> Option<&str> {

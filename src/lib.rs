@@ -169,9 +169,14 @@ mod error_impls;
 
 pub use crate::error::Error;
 
+#[cfg(target_vendor = "teaclave")]
+#[path = "teaclave.rs"]
+mod imp;
+
 // System-specific implementations.
 //
 // These should all provide getrandom_inner with the same signature as getrandom.
+#[cfg(not(target_vendor = "teaclave"))]
 cfg_if! {
     if #[cfg(any(target_os = "emscripten", target_os = "haiku",
                  target_os = "redox"))] {
