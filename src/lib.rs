@@ -208,6 +208,10 @@ mod error_impls;
 
 pub use crate::error::Error;
 
+#[cfg(target_vendor = "teaclave")]
+#[path = "teaclave.rs"]
+mod imp;
+
 // System-specific implementations.
 //
 // These should all provide getrandom_inner with the signature
@@ -215,6 +219,7 @@ pub use crate::error::Error;
 // The function MUST fully initialize `dest` when `Ok(())` is returned.
 // The function MUST NOT ever write uninitialized bytes into `dest`,
 // regardless of what value it returns.
+#[cfg(not(target_vendor = "teaclave"))]
 cfg_if! {
     if #[cfg(any(target_os = "haiku", target_os = "redox", target_os = "nto", target_os = "aix"))] {
         mod util_libc;
